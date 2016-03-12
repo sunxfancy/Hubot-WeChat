@@ -24,7 +24,7 @@
 #   eyinsma add status..
 
 querystring = require 'querystring'
-yaml = require '../node_modules/hubot-ece/node_modules/js-yaml/lib/js-yaml.js'
+yaml = require './node_modules/js-yaml/lib/js-yaml.js'
 fs   = require 'fs'
 jenkinsConfig = fs.readFileSync './scripts/unstablejob.yaml' , 'utf8'
 jenkinsYamlConfig = yaml.load jenkinsConfig

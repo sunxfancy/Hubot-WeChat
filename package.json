@@ -9,7 +9,10 @@
     "wechat",
     "weixin"
   ],
-  "author": "kasperdeng <kasper.deng@gmail.com>",
+  "author": {
+    "name": "Kasper Deng",
+    "email": "kasperdeng@gmail.com"
+  },
   "license": "MIT",
   "dependencies": {
     "js-yaml": ">= 3.0.0",
