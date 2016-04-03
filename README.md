@@ -80,6 +80,7 @@
     + e.g. `/home/kasper/dockerHubot/scripts`
 * start-up command. Please note using `-v`(volume) to map your config file and log file path on your host.
   - `docker run -d -v /home/kasper/dockerHubot/scripts:/root/hubot/scripts -v /home/kasper/dockerHubot/config.yaml:/root/hubot/node_modules/hubot-weixin/config.yaml -v /home/kasper/dockerHubot/wxhubot.log:/root/hubot/wxhubot.log kasperdeng/hubot-weixin`
+  - Use this command to enter the docker instance for debugging. `docker run -it -v /home/kasper/dockerHubot/scripts:/root/hubot/scripts -v /home/kasper/dockerHubot/config.yaml:/root/hubot/node_modules/hubot-weixin/config.yaml -v /home/kasper/dockerHubot/wxhubot.log:/root/hubot/wxhubot.log kasperdeng/hubot-weixin /bin/sh`
 * About the image `kasperdeng/hubot-weixin`, please refer to [Dockfile](https://www.github.com/kasperdeng/docker-hubot-weixin)
 
 ### by npm ###

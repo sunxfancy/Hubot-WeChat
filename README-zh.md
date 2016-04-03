@@ -79,6 +79,7 @@
     + 比如：`/home/kasper/dockerHubot/scripts`
 * 启动命令例子如下, 通过 `-v` (volume) 选项映射主机上的配置文件以及log文件
   - `docker run -d -v /home/kasper/dockerHubot/scripts:/root/hubot/scripts -v /home/kasper/dockerHubot/config.yaml:/root/hubot/node_modules/hubot-weixin/config.yaml -v /home/kasper/dockerHubot/wxhubot.log:/root/hubot/wxhubot.log kasperdeng/hubot-weixin`
+  - 用该命令进入 docker 运行实例去调试. `docker run -it -v /home/kasper/dockerHubot/scripts:/root/hubot/scripts -v /home/kasper/dockerHubot/config.yaml:/root/hubot/node_modules/hubot-weixin/config.yaml -v /home/kasper/dockerHubot/wxhubot.log:/root/hubot/wxhubot.log kasperdeng/hubot-weixin /bin/sh`
 * 关于该镜像`kasperdeng/hubot-weixin`，请参考其[Dockfile](https://www.github.com/kasperdeng/docker-hubot-weixin)
 
 #### 通过 npm 安装 hubot-weixin 并启动Hubot ####
