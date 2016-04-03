@@ -203,7 +203,7 @@ class WxBot
       content = message.Content
       log.debug "[_handleMessage] fromUserName: #{fromUserName}"
       log.debug "[_handleMessage] content: #{content}"
-      # @notifyHubotMsg null, fromUserName, content, null
+      @notifyHubotMsg null, fromUserName, content, null
 
 
   _handleModContactList: (contact) ->
