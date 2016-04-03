@@ -10,7 +10,7 @@
 * 微信网页版的基本功能
   - 自动回复到微信群
   - 可以回复多媒体信息(图片，动图，音乐)到微信群
-  - 自动回复某微信联系人(目前功能被注释了。需手动打开。后续会跟进代码的更改。)
+  - 自动回复某微信联系人
 * 自动发送Hubot在线状态给维护者的微信
 * 提供了foreverjs的起停脚本，方便监控Hubot的进程运行状态以及出问题的自动重启。
 * 提供了一系列的后端运行脚本
@@ -67,6 +67,19 @@
 * 其他配置项：暂时不累赘多说。应该知其名知其意的。细节可以看代码。
 
 ### 启动 ###
+
+#### 通过docker 启动 hubot-weixin ####
+* `docker pull kasperdeng/hubot-weixin`
+  - 镜像大学 83M，基于alpine linux
+* 请在主机(host)上准备好以下配置文件
+  - config.yaml 和你的hubot登录微信的信息(cookie, Uin, SKey, deviceId)
+    + 在docker模式下，请配置 `logToFile: true` 以及 `wxLogPath: "/root/hubot/wxhubot.log"`
+    + 比如 `/home/kasper/dockerHubot/config.yaml`
+  - 存放你的脚本的目录
+    + 比如：`/home/kasper/dockerHubot/scripts`
+* 启动命令例子如下, 通过 `-v` (volume) 选项映射主机上的配置文件以及log文件
+  - `docker run -d -v /home/kasper/dockerHubot/scripts:/root/hubot/scripts -v /home/kasper/dockerHubot/config.yaml:/root/hubot/node_modules/hubot-weixin/config.yaml -v /home/kasper/dockerHubot/wxhubot.log:/root/hubot/wxhubot.log kasperdeng/hubot-weixin`
+* 关于该镜像`kasperdeng/hubot-weixin`，请参考其[Dockfile](https://www.github.com/kasperdeng/docker-hubot-weixin)
 
 #### 通过 npm 安装 hubot-weixin 并启动Hubot ####
 * 首先，你肯定是要有hubot的(这个不在该文档说明了。请参考[Hubot官网](https://hubot.github.com))

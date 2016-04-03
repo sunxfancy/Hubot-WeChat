@@ -10,7 +10,7 @@
 * Basic functions as that in WeChat Web
   - Auto-reply text to group
   - Auto-reply media to group
-  - Auto-reply to specific person (function is available but comment out)
+  - Auto-reply to specific person
 * Auto-report status to maintainer
 * A forever script to launch the hubot instance and mornintoring
 * Aboundants of scripts for hubot
@@ -66,6 +66,34 @@
   - It is used to control hubot only listen on some group for auto reply 
 
 * Other config item: it's simple to know from its meaning and you can check the code for its usage
+
+## Start Up ##
+
+### by docker ###
+* `docker pull kasperdeng/hubot-weixin`
+  - size 83M, based on alpine linux
+* Please prepare below config files on host
+  - config.yaml with your login info: cookie, Uin, SKey, deviceId
+    + For starting in docker, please set `logToFile: true` and `wxLogPath: "/root/hubot/wxhubot.log"`
+    + e.g. `/home/kasper/dockerHubot/config.yaml`
+  - Your scripts directory
+    + e.g. `/home/kasper/dockerHubot/scripts`
+* start-up command. Please note using `-v`(volume) to map your config file and log file path on your host.
+  - `docker run -d -v /home/kasper/dockerHubot/scripts:/root/hubot/scripts -v /home/kasper/dockerHubot/config.yaml:/root/hubot/node_modules/hubot-weixin/config.yaml -v /home/kasper/dockerHubot/wxhubot.log:/root/hubot/wxhubot.log kasperdeng/hubot-weixin`
+* About the image `kasperdeng/hubot-weixin`, please refer to [Dockfile](https://www.github.com/kasperdeng/docker-hubot-weixin)
+
+### by npm ###
+* First, setup hubot(details in [Hubot official](https://hubot.github.com))
+* add `hubot-weixin`to hubot's package.json
+* run `npm install` in your hubot dir
+* start hubot: `bin/hubot -a weixin`
+
+### by git pulling ###
+* Pull hubot-weixin from here
+* Make symbolic link to your hubot-weixin in Hubot'snode_modules
+  - `npm link <your hubot-weixin dir>`
+* start hubot: `bin/hubot -a weixin`
+
 
 ## Design & Implementation Notes ##
 * The problem
