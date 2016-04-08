@@ -1,6 +1,6 @@
 # ![weixin](http://weixin.qq.com/zh_CN/htmledition/images/favicon1fbcbe.ico)  Hubot-Weixin 
   - hubot [![hubot version](https://img.shields.io/npm/v/hubot.svg?style=plastic)](https://github.com/github/hubot) 
-  - hubot-weixin[![hubot-weixin version](https://img.shields.io/npm/v/hubot-weixin.svg?style=plastic)](https://github.com/KasperDeng/Hubot-WeChat) 
+  - hubot-weixin [![hubot-weixin version](https://img.shields.io/npm/v/hubot-weixin.svg?style=plastic)](https://github.com/KasperDeng/Hubot-WeChat) 
   - npm [![npm version](https://img.shields.io/npm/v/npm.svg?style=plastic)](https://www.npmjs.com/package/hubot-weixin)
   - nodejs [![node version](https://img.shields.io/node/v/latest-version.svg?style=plastic)](https://nodejs.org/en/)
 
