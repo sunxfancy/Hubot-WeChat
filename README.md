@@ -1,4 +1,6 @@
-# Hubot-Weixin
+# Hubot-Weixin ![weixin](http://weixin.qq.com/zh_CN/htmledition/images/favicon1fbcbe.ico) 
+[![hubot-weixin version](https://img.shields.io/npm/v/hubot-weixin.svg?style=plastic)](https://github.com/KasperDeng/Hubot-WeChat) [![hubot version](https://img.shields.io/npm/v/hubot.svg?style=plastic)](https://github.com/github/hubot) [![npm version](https://img.shields.io/npm/v/npm.svg?style=plastic)](https://www.npmjs.com/package/hubot-weixin) [![node version](https://img.shields.io/node/v/latest-version.svg?style=plastic)](https://nodejs.org/en/)
+
 * [中文版](https://github.com/KasperDeng/Hubot-WeChat/blob/master/README-zh.md)
 * This is wechat/weixin adapter for hubot.
 * Notation: wechat is another name for the popular App weixin in China
