@@ -47,10 +47,15 @@ maintainerName: "Kasper"
 
 foreverDaemon: true
 
-# WxHubot Configurations, unit: ms #
-webWxSyncInterval: 1500
-syncCheckInterval: 30000
-reportHealthInterval: 21600000
+# WxHubot Configurations
+# unit:
+  # s = seconds
+  # m = milliseconds
+  # u = microseconds
+  # n = nanoseconds
+webWxSyncInterval: 2s
+syncCheckInterval: 30s
+reportHealthInterval: 21600s
 
 logToFile: false
 wxLogPath: "./node_modules/hubot-weixin/wxhubot.log"

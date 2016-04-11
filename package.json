@@ -19,7 +19,8 @@
     "lodash": "^3.10.1",
     "log": "1.4.0",
     "parent-require": "^1.0.0",
-    "sync-request": "^2.1.0"
+    "sync-request": "^2.1.0",
+    "nanotimer": "^0.3.14"
   },
   "devDependencies": {
     "coffee-script": ">=1.2.0",

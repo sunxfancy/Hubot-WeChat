@@ -7,6 +7,7 @@ catch
 WxBot = require "../src/wxbot"
 config = require '../src/config'
 log = require '../src/wxLog'
+NanoTimer = require 'nanotimer'
 jsons = JSON.stringify
 
 class WxBotAdapter extends Adapter
@@ -15,6 +16,9 @@ class WxBotAdapter extends Adapter
     super
     @robot.logger.info "Construct Robot"
     @robot = robot
+    @webWxSyncTimer = new NanoTimer()
+    @syncCheckTimer = new NanoTimer()
+    @healthCheckTimer = new NanoTimer()
 
   send: (envelope, strings...) ->
     @robot.logger.info "hubot is sending #{strings}"
@@ -54,9 +58,9 @@ class WxBotAdapter extends Adapter
     @robot.logger.info "wx robot init done"
     log.debug "@groupInfo", @wxbot.groupInfo
     log.debug "@groupMemberInfo", @wxbot.groupMemberInfo
-    setInterval @wxbot.webWxSync, config.webWxSyncInterval
-    setInterval @wxbot.syncCheck, config.syncCheckInterval
-    setInterval @wxbot.reportHealthToMaintainer, config.reportHealthInterval
+    @webWxSyncTimer.setInterval(@wxbot.webWxSync, '', config.webWxSyncInterval)
+    @syncCheckTimer.setInterval(@wxbot.syncCheck, '', config.syncCheckInterval)
+    @healthCheckTimer.setInterval(@wxbot.reportHealthToMaintainer, '', config.reportHealthInterval)
     @wxbot.sendLatestImage()
 
     @_quitProcessOnException()

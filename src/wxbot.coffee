@@ -107,7 +107,7 @@ class WxBot
       log.error error
 
   webWxSync: (callback) =>
-    log.debug "webWxSync running in #{config.webWxSyncInterval} ms"
+    log.debug "webWxSync running in #{config.webWxSyncInterval}"
     try
       response = @api.webWxSync @syncKey
       jsonBody = @_getJsonBody response
@@ -132,7 +132,7 @@ class WxBot
       log.error error
 
   syncCheck: (callback) =>
-    log.debug "syncCheck running in #{config.syncCheckInterval} ms"
+    log.debug "syncCheck running in #{config.syncCheckInterval}"
     try
       @api.syncCheck @syncKey, @syncCheckCounter+1, (body, ret, e) ->
         log.debug "[syncCheck] body: #{body} ret: #{ret} error: #{e}"
