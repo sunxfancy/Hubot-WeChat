@@ -58,10 +58,9 @@ class WxBotAdapter extends Adapter
     @robot.logger.info "wx robot init done"
     log.debug "@groupInfo", @wxbot.groupInfo
     log.debug "@groupMemberInfo", @wxbot.groupMemberInfo
-    @webWxSyncTimer.setInterval(@wxbot.webWxSync, '', config.webWxSyncInterval)
-    @syncCheckTimer.setInterval(@wxbot.syncCheck, '', config.syncCheckInterval)
-    @healthCheckTimer.setInterval(@wxbot.reportHealthToMaintainer, '', config.reportHealthInterval)
-    @wxbot.sendLatestImage()
+    @webWxSyncTimer.setInterval @wxbot.webWxSync, '', config.webWxSyncInterval
+    @syncCheckTimer.setInterval @wxbot.syncCheck, '', config.syncCheckInterval
+    @healthCheckTimer.setInterval @wxbot.reportHealthToMaintainer, '', config.reportHealthInterval
 
     @_quitProcessOnException()
 
@@ -70,7 +69,10 @@ class WxBotAdapter extends Adapter
     @receive new TextMessage user, content, msgId
 
   _quitProcessOnException: () ->
-    process.on 'uncaughtException', (err) ->
+    process.on 'uncaughtException', (err) =>
+      @webWxSyncTimer.clearInterval()
+      @syncCheckTimer.clearInterval()
+      @healthCheckTimer.clearInterval()
       log.critical "caught an exception, #{err}! Process exit code: 2"
       process.exit 2
 
