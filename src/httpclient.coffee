@@ -32,7 +32,7 @@ http_request = (options , params , callback) ->
     resp.on "data", (chunk) ->
       body += chunk
     resp.on "end", ->
-      handle_resp_body(body, options, callback)
+      callback resp, body, options
 
   req.on "error" , (e)->
     callback(null,e)
@@ -41,10 +41,10 @@ http_request = (options , params , callback) ->
     req.write data
   req.end()
 
-handle_resp_body = (body , options , callback) ->
+handle_resp_body = (body, options, callback) ->
   err = null
   try
-    if (_isNotEmptyBody body) and (_isNotSynCheckBody body)
+    if _isNotEmptyBody body
       ret = JSON.parse body
   catch error
     log.error "Response in Error: ", options.url, body, error
@@ -128,9 +128,6 @@ http_post = (options , body , callback) ->
 
 _isNotEmptyBody = (body) ->
   return body isnt "" and body isnt null
-
-_isNotSynCheckBody = (body) ->
-  return not body.startsWith "window"
 
 module.exports =
   request: http_request

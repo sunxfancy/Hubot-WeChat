@@ -29,8 +29,8 @@ class WxBotAdapter extends Adapter
       toGroup = envelope.room
 
     for string in strings
-      @wxbot.sendMessage @wxbot.myUserName, toGroup, toUser, string, (ret,e) ->
-        log.debug "sendToUser", jsons ret
+      @wxbot.sendMessage @wxbot.myUserName, toGroup, toUser, string, (resp, resBody, opts) ->
+        log.debug "sendToUser", jsons resBody
 
   reply: (envelope, strings...) ->
     @robot.logger.info "hubot is repling #{strings}"

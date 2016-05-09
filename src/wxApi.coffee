@@ -92,7 +92,7 @@ webWxSync = (synckey, callback) ->
     "BaseRequest": _getBaseRequest()
     "SyncKey": synckey
     "rr": -602451563 ## Todo: what is rr?
-  res = client.post_sync url, params
+  res = client.post {url:url}, params, callback
   return res
 
 syncCheck = (synckey, syncCheckCounter, callback) ->
@@ -231,11 +231,11 @@ webWxUploadAndSendMedia = (fromUser, toUser, filePath) ->
       if jsonBody.BaseResponse.Ret is 0
         mediaId = jsonBody.MediaId
         if ext isnt "gif"
-          sendImage fromUser, toUser, mediaId, (body, ret, e) ->
-              log.debug "sendImageToUser", jsons body
+          sendImage fromUser, toUser, mediaId, (resp, resBody, opts) ->
+              log.debug "sendImageToUser", jsons resBody
         else
-          sendEmotion fromUser, toUser, mediaId, (body, ret, e) ->
-              log.debug "sendEmotionToUser", jsons body
+          sendEmotion fromUser, toUser, mediaId, (resp, resBody, opts) ->
+              log.debug "sendEmotionToUser", jsons resBody
       else
         log.error "Upload media failed, RC: #{jsonBody.BaseResponse.Ret}"
     catch error

@@ -109,23 +109,7 @@ class WxBot
   webWxSync: (callback) =>
     log.debug "webWxSync running in #{config.webWxSyncInterval}"
     try
-      response = @api.webWxSync @syncKey
-      jsonBody = @_getJsonBody response
-      if response.statusCode == HttpCodes.OK && jsonBody.BaseResponse.Ret == WxResCodes.OK
-        @syncKey = jsonBody.SyncKey ## TODO: check whether syncKey is changed when receiving new msg
-        if jsonBody.AddMsgCount != 0
-          log.debug "incoming message count: #{jsonBody.AddMsgList.length}"
-          @_handleMessage message for message in jsonBody.AddMsgList
-        if jsonBody.ModContactCount != 0
-          log.debug "new mod contact count: #{jsonBody.ModContactList.length}"
-          log.debug "new mod contact: %j", jsonBody.ModContactList
-          @_handleModContactList contact for contact in jsonBody.ModContactList
-      else
-        @_logResponseError(response)
-        debugMessage = "Hubot is running in issue: webWxSync error"
-        sickMessage = "I'm sick and will go to bed soon."
-        @_notifySick debugMessage, sickMessage
-        @_throwWxError "webWxSync error"
+      response = @api.webWxSync @syncKey, @_handleWebSyncCb
     catch error
       if error instanceof err.WxError
         throw error
@@ -134,13 +118,7 @@ class WxBot
   syncCheck: (callback) =>
     log.debug "syncCheck running in #{config.syncCheckInterval}"
     try
-      @api.syncCheck @syncKey, @syncCheckCounter+1, (body, ret, e) ->
-        log.debug "[syncCheck] body: #{body} ret: #{ret} error: #{e}"
-        if e
-          debugMessage = "Hubot is running in issue: syncCheck error: #{e}"
-          sickMessage = "I'm sick and will go to bed soon."
-          @_notifySick debugMessage, sickMessage
-          @_throwWxError "syncCheck error"
+      @api.syncCheck @syncKey, @syncCheckCounter+1, @_handleSyncCheckCb
     catch error
       if error instanceof err.WxError
         throw error
@@ -213,6 +191,39 @@ class WxBot
       if contact.MemberCount isnt 0
         @addToGroupMemberInfo contact
 
+  _handleWebSyncCb: (resp, resBody, opts) =>
+    try
+      if !!resBody
+        jsonBody = JSON.parse resBody
+        if resp.statusCode is HttpCodes.OK && jsonBody.BaseResponse.Ret is WxResCodes.OK
+          @syncKey = jsonBody.SyncKey ## TODO: check whether syncKey is changed when receiving new msg
+          if jsonBody.AddMsgCount != 0
+            log.debug "incoming message count: #{jsonBody.AddMsgList.length}"
+            @_handleMessage message for message in jsonBody.AddMsgList
+          if jsonBody.ModContactCount != 0
+            log.debug "new mod contact count: #{jsonBody.ModContactList.length}"
+            log.debug "new mod contact: %j", jsonBody.ModContactList
+            @_handleModContactList contact for contact in jsonBody.ModContactList
+        else
+          @_logResponseError(resp)
+          debugMessage = "Hubot is running in issue: webWxSync error"
+          sickMessage = "I'm sick and will go to bed soon."
+          @_notifySick debugMessage, sickMessage
+          @_throwWxError "webWxSync error"
+      else
+        log.error "receive empty response for WebSync"
+    catch error
+      log.error "Error in handling WebSync response #{resBody}", error
+
+  _handleSyncCheckCb: (resp, resBody, opts) =>
+    if !!resBody
+      log.debug "[syncCheck] body: #{resBody}"
+    else
+      debugMessage = "Hubot is running in issue: syncCheck error"
+      sickMessage = "I'm sick and will go to bed soon."
+      @_notifySick debugMessage, sickMessage
+      @_throwWxError "syncCheck error"
+
   _getAtName: (groupUserName, fromUserName) ->
     groupMemberList = @groupMemberInfo[groupUserName]
     if groupMemberList
@@ -257,7 +268,7 @@ class WxBot
       @_notifyAllListenGroups sickMessage
       @toNotifySick = false
 
-  _throwWxError: (msg) =>
+  _throwWxError: (msg) ->
     throw new err.WxError msg if config.foreverDaemon
 
 module.exports = WxBot
