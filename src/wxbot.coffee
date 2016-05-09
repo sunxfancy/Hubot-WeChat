@@ -1,12 +1,17 @@
+# node.js deps
+fs = require 'fs'
+jsons = JSON.stringify
+
+# npm deps
+_ = require 'lodash'
+
+# app deps
 config = require '../src/config'
 client = require '../src/httpclient'
 wxApi = require '../src/wxApi'
 log = require '../src/wxLog'
 err = require '../src/wxError'
-_ = require 'lodash'
-fs = require 'fs'
 {HttpCodes, WxResCodes} = require '../src/constants'
-jsons = JSON.stringify
 
 class WxBot
   constructor: ->

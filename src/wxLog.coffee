@@ -1,5 +1,8 @@
+# node.js deps
 Log = require 'log'
 fs = require 'fs'
+
+# app deps
 config = require '../src/config'
 
 if config.logToFile

@@ -4,11 +4,15 @@ catch
   prequire = require('parent-require')
   {Robot, Adapter, TextMessage, User} = prequire 'hubot'
 
+# node.js deps
+jsons = JSON.stringify
+# npm deps
+
+# app deps
 WxBot = require "../src/wxbot"
 config = require '../src/config'
 log = require '../src/wxLog'
 NanoTimer = require 'nanotimer'
-jsons = JSON.stringify
 
 class WxBotAdapter extends Adapter
 

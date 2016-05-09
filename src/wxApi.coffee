@@ -1,11 +1,14 @@
+# node.js deps
+path = require 'path'
+fs = require 'fs'
+util = require 'util'
+jsons = JSON.stringify
+
+# app deps
 config = require '../src/config'
 client = require '../src/httpclient'
 log = require '../src/wxLog'
 {HttpCodes, WxResCodes} = require '../src/constants'
-jsons = JSON.stringify
-path = require 'path'
-fs = require 'fs'
-util = require 'util'
 
 getContact = (callback = null) ->
   url = config.baseUrl + config.getContactUrl

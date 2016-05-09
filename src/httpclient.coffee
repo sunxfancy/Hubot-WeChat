@@ -1,12 +1,17 @@
+# node.js deps
 https = require 'https'
 http  = require 'http'
+URL  = require 'url'
+fs = require 'fs'
+jsons = JSON.stringify
+log = new (require 'log') process.env.HUBOT_LOG_LEVEL or 'info'
+
+# npm deps
+http_request_sync = require('sync-request')
+
+# app deps
 config    = require '../src/config'
 querystring  = require 'querystring'
-URL  = require('url')
-log = new (require 'log') process.env.HUBOT_LOG_LEVEL or 'info'
-jsons = JSON.stringify
-http_request_sync = require('sync-request')
-fs = require 'fs'
 
 http_request = (options , params , callback) ->
   aurl = URL.parse( options.url )
