@@ -4,6 +4,10 @@ fs = require 'fs'
 util = require 'util'
 jsons = JSON.stringify
 
+# npm deps
+_ = require 'lodash'
+md5 = require 'file-md5'
+
 # app deps
 config = require '../src/config'
 client = require '../src/httpclient'
@@ -127,8 +131,12 @@ webWxUploadAndSendMedia = (fromUser, toUser, filePath) ->
   stats = fs.statSync filePath
   fileName = path.basename filePath
   ext = (fileName.split ".")[1]
+  fileMd5 = md5 filePath, null
 
-  wuFileType = 
+  log.debug "stats: %j", stats
+  log.debug "file MD5 #{fileMd5}"
+
+  wuFileType =
     "jpg":  "WU_FILE_0"
     "jpeg": "WU_FILE_0"
     "png":  "WU_FILE_0"
@@ -140,13 +148,11 @@ webWxUploadAndSendMedia = (fromUser, toUser, filePath) ->
     "png":  "image/png"
     "gif":  "image/gif"
 
-  mediaT = 
+  mediaT =
     "jpg":  "pic"
     "jpeg": "pic"
     "png":  "pic"
     "gif":  "doc"
-
-  log.debug "stats: %j", stats
 
   content = boundaryKey
   content = "Content-Disposition: form-data; name=\"id\"#{new2Lines}"
@@ -176,24 +182,30 @@ webWxUploadAndSendMedia = (fromUser, toUser, filePath) ->
   content += boundaryKey
   content += "Content-Disposition: form-data; name=\"uploadmediarequest\"#{new2Lines}"
   uploadmediarequest =
+    "UploadType": 2
     "BaseRequest": _getBaseRequest()
     "ClientMediaId": +new Date
-    "TotalLen": stats.size,
-    "StartPos": 0,
-    "DataLen": stats.size,
+    "TotalLen": stats.size
+    "StartPos": 0
+    "DataLen": stats.size
     "MediaType": UPLOAD_MEDIA_TYPE_ATTACHMENT
+    "FromUserName": fromUser
+    "ToUserName": toUser
+    "FileMd5": fileMd5
   content += "#{jsons uploadmediarequest}#{newLine}"
 
   content += boundaryKey
   content += "Content-Disposition: form-data; name=\"webwx_data_ticket\"#{new2Lines}"
   cookieItems = config.cookie.split ";"
-  for item in cookieItems
-    ticket = (item.split "=")[1] if item.indexOf "webwx_data_ticket" isnt -1
+  ticket = _.find(cookieItems, (x) ->
+    return x.indexOf("webwx_data_ticket") != -1
+  ).split("=")[1]
   content += "#{ticket}#{newLine}"
 
   content += boundaryKey
   content += "Content-Disposition: form-data; name=\"pass_ticket\"#{new2Lines}"
-  content += "jfL17ewPjc7ArkA84QGNyxpnL7bq7ZEaUJ8x4r/MzsliajJ8F1KT4RIQB73Zn9IW#{newLine}"
+  #content += "jfL17ewPjc7ArkA84QGNyxpnL7bq7ZEaUJ8x4r/MzsliajJ8F1KT4RIQB73Zn9IW#{newLine}"
+  content += "undefined#{newLine}"
 
   content += boundaryKey
   content += "Content-Disposition: form-data; name=\"filename\"; filename=\"#{fileName}\"#{newLine}"
@@ -259,6 +271,7 @@ sendImage = (fromUser, toUser, mediaId, callback) ->
   params =
     "BaseRequest": _getBaseRequest()
     "Msg": m
+    "Scene": 0
   client.post {url:url}, params, callback
 
 sendEmotion = (fromUser, toUser, mediaId, callback) ->
