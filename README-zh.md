@@ -46,9 +46,11 @@
       + DeviceId
   3. 抓取到的数据填到config.yaml对应的配置项。
   4. **注意**： 配置项里面有以下baseUrl的配置。你要根据Hubot登录的最终Url来配置。
-     因为微信的服务器对登录的微信号有分流。目前主要在wx或wx2上。
+     因为微信的服务器对登录的微信号有分流。目前主要在wx或wx2上，媒体上传的有分file/file2。
     - https://wx.qq.com/cgi-bin/mmwebwx-bin
     - https://wx2.qq.com/cgi-bin/mmwebwx-bin
+    - https://file1.wx.qq.com/cgi-bin/mmwebwx-bin
+    - https://file2.wx.qq.com/cgi-bin/mmwebwx-bin
 
 * maintainerName
   - 该配置项用于配置运维Hubot的维护者的微信名称。该维护者必须要在Hubot的微信的联系人当中（手机端操作）。

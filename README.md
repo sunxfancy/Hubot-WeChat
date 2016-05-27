@@ -40,6 +40,7 @@
 
 * url
   - baseUrl -- wx/wx2
+  - baseUploadUrl -- file/file2
   - Wechat server has traffic distribution to WX/WX2 server dependent on hubot's WeChat ID 
 
 * Below data are needed and set into config.yaml apporiated fields 
