@@ -5,17 +5,20 @@
 #   hubot turing|图灵 .*
 
 module.exports = (robot) ->
-  robot.respond /(turing|图灵) (.*)/i, (msg) ->
+  robot.hear /(turing|图灵|图图|米图|mitu) (.*)/i, (msg) ->
     turingRobot msg
 
 turingRobot = (msg) ->
   isZhCn = msg.match[1] is "图灵"
   info = new Buffer msg.match[2]
-  key = "" # Your key got from tuling registration
-  userid = "" # Your userid after tuling registration
+  #key = "879a6cb3afb84dbf4fc84a1df2ab7319" // for baidu apis
+  key = "ca1afed84db30a7818aa5928db95c366"
+  userid = "eb2edb736"
   params = "key=#{key}&info=#{info}&userid=#{userid}"
+  #urlPath = "http://apis.baidu.com/turing/turing/turing?#{params}" // for baidu apis
   urlPath = "http://www.tuling123.com/openapi/api?#{params}"
   req = msg.http(urlPath)
+  #req.header "apikey", "9b2eeae160264cd314dcc44dd081544b" // for baidu apis
   req.get() (err, res, body) ->
     getRandomItem = (length) ->
       return Math.floor(Math.random(0, 1) * length)
