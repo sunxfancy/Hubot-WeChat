@@ -133,11 +133,16 @@ class WxBot
     message = "The HUBOT is still online."
     @_notifyMaintainer message
 
-  webWxUploadAndSendMedia: (fromUser, toUser, filePath) =>
+  webWxUploadAndSendMedia: (fromUser, toGroup, toUser, filePath) =>
     log.debug "To upload the file #{filePath}"
     if fs.existsSync filePath
       try
-        @api.webWxUploadAndSendMedia fromUser, toUser, filePath
+        if toGroup
+          toUserName = toGroup
+        else
+          toUserName = toUser if toUser
+
+        @api.webWxUploadAndSendMedia fromUser, toUserName, filePath
       catch error
         log.error error
 

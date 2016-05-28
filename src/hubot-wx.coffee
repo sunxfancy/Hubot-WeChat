@@ -48,7 +48,7 @@ class WxBotAdapter extends Adapter
       toGroup = envelope.room
     for string in strings
       # the string is a file path of media to be sent
-      @wxbot.webWxUploadAndSendMedia @wxbot.myUserName, toGroup, string
+      @wxbot.webWxUploadAndSendMedia @wxbot.myUserName, toGroup, toUser, string
 
   run: ->
     self = @

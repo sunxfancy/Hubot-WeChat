@@ -259,7 +259,6 @@ webWxUploadAndSendMedia = (fromUser, toUser, filePath) ->
 sendImage = (fromUser, toUser, mediaId, callback) ->
   log.debug "mediaId: #{mediaId}"
   url = config.baseUrl + config.webwxsendmsgimg + "?fun=async&f=json"
-  # + "&pass_ticket=jfL17ewPjc7ArkA84QGNyxpnL7bq7ZEaUJ8x4r/MzsliajJ8F1KT4RIQB73Zn9IW"
   msgId = _getMsgIdFromTimeStamp()
   m =
     Type: 3
@@ -277,7 +276,6 @@ sendImage = (fromUser, toUser, mediaId, callback) ->
 sendEmotion = (fromUser, toUser, mediaId, callback) ->
   log.debug "mediaId: #{mediaId}"
   url = config.baseUrl + "/webwxsendemoticon" + "?fun=sys"
-  # + "&pass_ticket=jfL17ewPjc7ArkA84QGNyxpnL7bq7ZEaUJ8x4r/MzsliajJ8F1KT4RIQB73Zn9IW"
   msgId = _getMsgIdFromTimeStamp()
   m =
     Type: 47
@@ -290,6 +288,7 @@ sendEmotion = (fromUser, toUser, mediaId, callback) ->
   params =
     "BaseRequest": _getBaseRequest()
     "Msg": m
+    "Scene": 0
   client.post {url:url}, params, callback
 
 

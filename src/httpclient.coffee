@@ -1,17 +1,17 @@
 # node.js deps
 https = require 'https'
 http  = require 'http'
+querystring  = require 'querystring'
 URL  = require 'url'
 fs = require 'fs'
 jsons = JSON.stringify
 log = new (require 'log') process.env.HUBOT_LOG_LEVEL or 'info'
 
 # npm deps
-http_request_sync = require('sync-request')
+http_request_sync = require 'sync-request'
 
 # app deps
-config    = require '../src/config'
-querystring  = require 'querystring'
+config = require '../src/config'
 
 http_request = (options , params , callback) ->
   aurl = URL.parse( options.url )
@@ -24,7 +24,7 @@ http_request = (options , params , callback) ->
   if params and options.method == "POST"
     data = new Buffer jsons params, 'utf8'
     options.headers["Content-Type"] = config.contentType
-    options.headers["Content-Length"]= data.byteLength
+    options.headers["Content-Length"] = data.byteLength
     options.headers["Connection"] = config.connection
   if params and options.method == "GET"
     query = querystring.stringify params
