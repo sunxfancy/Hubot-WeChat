@@ -1,6 +1,6 @@
 {
   "name": "hubot-weixin",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "This is wechat/weixin adapter for hubot",
   "main": "./src/hubot-wx.coffee",
   "keywords": [
