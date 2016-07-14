@@ -165,7 +165,7 @@ class WxBot
           log.debug "to send image to group: #{groupName}"
           toUserNameGroup = _.invert @groupInfo
           try
-            @webWxUploadAndSendMedia @myUserName, toUserNameGroup[groupName], filePath
+            @webWxUploadAndSendMedia @myUserName, toUserNameGroup[groupName], null, filePath
           catch error
             log.error error
 
