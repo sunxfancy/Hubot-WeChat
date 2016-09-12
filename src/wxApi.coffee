@@ -93,17 +93,28 @@ getOplog = (myUserName, callback = null) ->
     res = client.post_sync url, params
     return res
 
+asyncWebWxSync = (synckey, callback) ->
+  url = config.baseUrl + config.getWebwxSync
+  params =
+    "BaseRequest": _getBaseRequest()
+    "SyncKey": synckey
+    "rr": -602451563 ## Todo: what is rr?
+  client.post {url:url}, params, callback
+
+###########################
+# Synchronization webWxSync
+###########################
 webWxSync = (synckey, callback) ->
   url = config.baseUrl + config.getWebwxSync
   params =
     "BaseRequest": _getBaseRequest()
     "SyncKey": synckey
     "rr": -602451563 ## Todo: what is rr?
-  res = client.post {url:url}, params, callback
+  res = client.post_sync url, params
   return res
 
 syncCheck = (synckey, syncCheckCounter, callback) ->
-  url = config.baseUrl + config.syncCheck
+  url = config.baseSyncChkUrl + config.syncCheck
   params =
     "r": _getMsgIdFromTimeStamp() ## Todo: what is r?
     "skey": config.Skey
@@ -113,8 +124,7 @@ syncCheck = (synckey, syncCheckCounter, callback) ->
     "syncKey": synckey
     "_": syncCheckCounter
 
-  res = client.get url, params, callback
-  return res
+  client.get url, params, callback
 
 webWxUploadAndSendMedia = (fromUser, toUser, filePath) ->
   url = config.baseUploadUrl + config.webWxUploadMedia + "?f=json"
@@ -310,6 +320,7 @@ module.exports = {
   getBatchContact
   getInit
   getOplog
+  asyncWebWxSync
   webWxSync
   syncCheck
   sendMessage

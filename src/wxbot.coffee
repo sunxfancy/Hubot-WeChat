@@ -112,9 +112,29 @@ class WxBot
       log.error error
 
   webWxSync: (callback) =>
-    log.debug "webWxSync running in #{config.webWxSyncInterval}"
     try
-      response = @api.webWxSync @syncKey, @_handleWebSyncCb
+      if config.asyncWebWxSync
+        log.debug "async webWxSync running in #{config.webWxSyncInterval}"
+        @api.asyncWebWxSync @syncKey, @_handleWebSyncCb
+      else
+        log.debug "synchronization webWxSync running in #{config.webWxSyncInterval}"
+        response = @api.webWxSync @syncKey
+        jsonBody = @_getJsonBody response
+        if response.statusCode == HttpCodes.OK && jsonBody.BaseResponse.Ret == WxResCodes.OK
+          @syncKey = jsonBody.SyncKey ## TODO: check whether syncKey is changed when receiving new msg
+          if jsonBody.AddMsgCount != 0
+            log.debug "incoming message count: #{jsonBody.AddMsgList.length}"
+            @_handleMessage message for message in jsonBody.AddMsgList
+          if jsonBody.ModContactCount != 0
+            log.debug "new mod contact count: #{jsonBody.ModContactList.length}"
+            log.debug "new mod contact: %j", jsonBody.ModContactList
+            @_handleModContactList contact for contact in jsonBody.ModContactList
+        else
+          @_logResponseError(response)
+          debugMessage = "Hubot is running in issue: webWxSync error"
+          sickMessage = "I'm sick and will go to bed soon."
+          @_notifySick debugMessage, sickMessage
+        @_throwWxError "webWxSync error"
     catch error
       if error instanceof err.WxError
         throw error

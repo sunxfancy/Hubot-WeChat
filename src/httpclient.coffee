@@ -22,6 +22,8 @@ http_request = (options , params , callback) ->
   client =  if aurl.protocol == "https:" then https else http
   body = ""
   if params and options.method == "POST"
+    # TODO Kasper fix SSL handshake issue if use https, just hardcode use http temporally
+    client = http
     data = new Buffer jsons params, 'utf8'
     options.headers["Content-Type"] = config.contentType
     options.headers["Content-Length"] = data.byteLength
