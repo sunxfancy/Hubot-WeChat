@@ -134,7 +134,7 @@ class WxBot
           debugMessage = "Hubot is running in issue: webWxSync error"
           sickMessage = "I'm sick and will go to bed soon."
           @_notifySick debugMessage, sickMessage
-        @_throwWxError "webWxSync error"
+          @_throwWxError "webWxSync error"
     catch error
       if error instanceof err.WxError
         throw error
