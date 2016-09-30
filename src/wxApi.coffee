@@ -115,14 +115,19 @@ webWxSync = (synckey, callback) ->
 
 syncCheck = (synckey, syncCheckCounter, callback) ->
   url = config.baseSyncChkUrl + config.syncCheck
-  params =
-    "r": _getMsgIdFromTimeStamp() ## Todo: what is r?
-    "skey": config.Skey
-    "sid": config.Sid
-    "uin": config.Uin
-    "deviceid": config.DeviceID
-    "syncKey": synckey
-    "_": syncCheckCounter
+  syncKeyList = []
+
+  _.each synckey.List, (value) ->
+    tempList = []
+    _.forIn value, (value) ->
+      tempList.push value
+    syncKeyList.push(_.join(tempList, "_"))
+  syncKeyStr = _.join(syncKeyList, "|")
+
+  query = "r=" + _getMsgIdFromTimeStamp() + "&skey=" + config.Skey + "&sid=" + config.Sid + "&uin=" + config.Uin + "&deviceid=" + config.DeviceID + "&syncKey=" + syncKeyStr + "&_=" + syncCheckCounter
+
+  url = url + "?" +query
+  params = {}
 
   client.get url, params, callback
 

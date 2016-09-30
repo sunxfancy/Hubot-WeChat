@@ -252,7 +252,8 @@ class WxBot
       debugMessage = "Hubot is running in issue: syncCheck error"
       sickMessage = "I'm sick and will go to bed soon."
       @_notifySick debugMessage, sickMessage
-      @_throwWxError "syncCheck error"
+      # Kasper: TODO Not throw exception temporary
+      #@_throwWxError "syncCheck error"
 
   _getAtName: (groupUserName, fromUserName) ->
     groupMemberList = @groupMemberInfo[groupUserName]
