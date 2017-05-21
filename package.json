@@ -1,13 +1,12 @@
 {
-  "name": "hubot-weixin",
+  "name": "hubot-wechat",
   "version": "1.0.8",
-  "description": "This is wechat/weixin adapter for hubot",
+  "description": "This is wechat adapter for hubot",
   "main": "./src/hubot-wx.coffee",
   "keywords": [
     "hubot",
     "adapter",
-    "wechat",
-    "weixin"
+    "wechat"
   ],
   "author": {
     "name": "Kasper Deng",
